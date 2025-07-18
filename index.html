@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Bernadine Bartlette- Business & Data Analyst Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.18.2/plotly.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: #2c3e50;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        nav .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: #3498db;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+            cursor: pointer;
+            border: none;
+            margin: 0 10px;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #2980b9;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        /* Vertical Project Cards */
+        .projects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .project-number {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .project-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .project-content {
+            padding: 2.5rem;
+        }
+
+        .project-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+
+        .project-highlights {
+            margin-bottom: 2rem;
+        }
+
+        .project-highlights h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .highlight-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #666;
+        }
+
+        .highlight-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .role-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .role-tag {
+            background: #e8f4fd;
+            color: #3498db;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #333;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #3498db;
+            border: 2px solid #3498db;
+        }
+
+        .btn-outline:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f9fa;
+            padding: 100px 0 60px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .about-text em {
+            color: #3498db;
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 100px 0 60px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 2px solid white;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .contact-links a:hover {
+            background: white;
+            color: #2c3e50;
+            transform: translateY(-3px);
+        }
+
+        /* Project Detail Page */
+        .project-detail {
+            background: white;
+            padding: 100px 0 60px;
+        }
+
+        .back-button {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
+
+        .project-featured {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .project-featured-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .project-featured-header h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-featured-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .featured-stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .featured-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-stat-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Project Tabs */
+        .project-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            margin: 0.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab-button.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-button:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .role-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                display: none;
+            }
+
+            .projects-grid {
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Bernadine Bartlette</div>
+            <ul>
+                <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showPage('about')" class="nav-link">About</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Business & Data Analyst</h1>
+                <p>Transforming data into actionable business insights and driving strategic decision-making through end-to-end analytics projects</p>
+                <button class="cta-button" onclick="document.querySelector('.projects-section').scrollIntoView({behavior: 'smooth'})">View My Projects</button>
+                <button class="cta-button" onclick="showPage('about')">About Me</button>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section">
+            <div class="container">
+                <h2 class="section-title">Featured Projects</h2>
+                
+                <div class="projects-grid">
+                    <!-- Project 1: Banking Fraud Detection -->
+                    <div class="project-card" onclick="showProjectDetail('fraud-detection')">
+                        <div class="project-header">
+                            <div class="project-number">Project 01</div>
+                            <div class="project-title">Banking Fraud Detection System</div>
+                            <div class="project-subtitle">AI-powered real-time fraud prevention with 99.8% accuracy</div>
+                            
+                            <div class="project-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">99.8%</div>
+                                    <div class="stat-label">Model Accuracy</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">$677K</div>
+                                    <div class="stat-label">Annual Savings</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">300%</div>
+                                    <div class="stat-label">ROI</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">&lt;100ms</div>
+                                    <div class="stat-label">Response Time</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-description">
+                                Developed an end-to-end machine learning system that detects fraudulent banking transactions in real-time. The system achieves industry-leading accuracy while minimizing false positives, delivering significant cost savings and improving customer experience.
+                            </div>
+                            
+                            <div class="project-highlights">
+                                <h4>Key Achievements</h4>
+                                <ul class="highlight-list">
+                                    <li>Built ML model with 99.8% AUC score and 0.2% false positive rate</li>
+                                    <li>Engineered 21 sophisticated features from transaction data</li>
+                                    <li>Designed production-ready API with sub-100ms response times</li>
+                                    <li>Delivered comprehensive business case showing $677K annual savings</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="role-tags">
+                                <span class="role-tag">Business Analysis</span>
+                                <span class="role-tag">Data Science</span>
+                                <span class="role-tag">Project Management</span>
+                                <span class="role-tag">Machine Learning</span>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <button class="project-btn btn-primary" onclick="event.stopPropagation(); showProjectDetail('fraud-detection');">View Details</button>
+                                <a href="https://github.com/bernadinebartlette2/fraud-detection-project" class="project-btn btn-secondary" onclick="event.stopPropagation();">GitHub</a>
+                                <button class="project-btn btn-outline" onclick="event.stopPropagation(); alert('Live demo available in project details');">Live Demo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-section">
+        <section class="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Professional Summary</h3>
+                        <p><em>Edit this section to match your background:</em></p>
+                        <p>Experienced Business/Data Analyst with a passion for transforming complex data into actionable business insights. Skilled in statistical analysis, data visualization, and strategic planning.</p>
+                        <p>I bridge the gap between technical analysis and business strategy, ensuring data-driven solutions deliver measurable value.</p>
+                        <p><em>Add your specific experience, education, certifications, etc.</em></p>
+                    </div>
+                    <div class="skills">
+                        <div class="skill">
+                            <h4>Data Analysis</h4>
+                            <p>Python, SQL, Excel, Statistical Modeling</p>
+                        </div>
+                        <div class="skill">
+                            <h4>Business Intelligence</h4>
+                            <p>Tableau, Power BI, KPI Development</p>
+                        </div>
+                        <div class="skill">
+                            <h4>Project Management</h4>
+                            <p>Agile, Stakeholder Management, Process Improvement</p>
+                        </div>
+                        <div class="skill">
+                            <h4>Financial Analysis</h4>
+                            <p>ROI Analysis, Cost-Benefit, Budgeting</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-section">
+        <section class="contact">
+            <div class="container">
+                <h2 class="section-title" style="color: white;">Get In Touch</h2>
+                <p>Interested in discussing business analysis, data insights, or project opportunities?</p>
+                <div class="contact-links">
+                    <a href="https://www.linkedin.com/in/bernadine-bartlette-a3763920a">LinkedIn</a>
+                    <a href="https://github.com/bernadinebartlette2">GitHub</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Project Detail Page (Fraud Detection) -->
+    <div id="project-detail" class="page-section">
+        <section class="project-detail">
+            <div class="container">
+                <a href="#" onclick="showPage('home')" class="back-button">← Back to Projects</a>
+                
+                <h2 class="section-title">Banking Fraud Detection System</h2>
+                
+                <!-- Project Overview -->
+                <div class="project-featured">
+                    <div class="project-featured-header">
+                        <h3>AI-Powered Fraud Detection System</h3>
+                        <p>End-to-end project demonstrating business analysis, data science, and project management skills</p>
+                    </div>
+
+                    <div class="project-featured-stats">
+                        <div class="featured-stat-card">
+                            <div class="featured-stat-value">99.8%</div>
+                            <div class="featured-stat-label">Model Accuracy</div>
+                        </div>
+                        <div class="featured-stat-card">
+                            <div class="featured-stat-value">$677K</div>
+                            <div class="featured-stat-label">Annual Savings</div>
+                        </div>
+                        <div class="featured-stat-card">
+                            <div class="featured-stat-value">300%</div>
+                            <div class="featured-stat-label">ROI</div>
+                        </div>
+                        <div class="featured-stat-card">
+                            <div class="featured-stat-value">6 months</div>
+                            <div class="featured-stat-label">Implementation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role-Specific Tabs -->
+                <div class="project-tabs">
+                    <button class="tab-button active" onclick="showTab('business-analyst')">Business Analyst</button>
+                    <button class="tab-button" onclick="showTab('data-analyst')">Data Analyst</button>
+                    <button class="tab-button" onclick="showTab('project-manager')">Project Manager</button>
+                    <button class="tab-button" onclick="showTab('technical')">Technical Overview</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="business-analyst" class="tab-content active">
+                    <div class="role-content">
+                        <h4>Business Analysis & Strategy</h4>
+                        <p><strong>Business Impact:</strong> Identified $677K annual cost savings opportunity through comprehensive fraud reduction analysis</p>
+                        <h5>Key Responsibilities:</h5>
+                        <ul>
+                            <li>Conducted comprehensive business requirements analysis for fraud detection system</li>
+                            <li>Performed cost-benefit analysis showing 300% ROI within 12 months</li>
+                            <li>Developed business case presentation for executive stakeholders</li>
+                            <li>Identified key performance indicators and success metrics</li>
+                            <li>Analyzed current state vs future state processes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="data-analyst" class="tab-content">
+                    <div class="role-content">
+                        <h4>Data Analysis & Insights</h4>
+                        <p><strong>Data Insight:</strong> Discovered fraud patterns showing 73% increase in detection accuracy</p>
+                        <h5>Key Responsibilities:</h5>
+                        <ul>
+                            <li>Analyzed 100,000+ transaction records to identify fraud patterns</li>
+                            <li>Performed exploratory data analysis to uncover key fraud indicators</li>
+                            <li>Developed statistical models with 99.8% accuracy</li>
+                            <li>Created comprehensive data visualizations and dashboards</li>
+                            <li>Conducted feature importance analysis for business insights</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="project-manager" class="tab-content">
+                    <div class="role-content">
+                        <h4>Project Management & Implementation</h4>
+                        <p><strong>Project Success:</strong> Delivered 25-week implementation plan on time and under budget</p>
+                        <h5>Key Responsibilities:</h5>
+                        <ul>
+                            <li>Developed comprehensive 25-week implementation timeline</li>
+                            <li>Managed $220K project budget across 5 phases</li>
+                            <li>Coordinated cross-functional teams (IT, Risk, Operations)</li>
+                            <li>Conducted risk assessment and mitigation planning</li>
+                            <li>Created stakeholder communication and change management plans</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="technical" class="tab-content">
+                    <div class="role-content">
+                        <h4>Technical Implementation</h4>
+                        <p><strong>Technical Achievement:</strong> Built production-ready ML system with <100ms response time</p>
+                        <h5>Technical Components:</h5>
+                        <ul>
+                            <li>Machine Learning: Random Forest model with 21 engineered features</li>
+                            <li>Data Pipeline: Real-time transaction processing and feature engineering</li>
+                            <li>API Development: REST endpoints for real-time fraud scoring</li>
+                            <li>Cloud Architecture: Scalable, cloud-native deployment</li>
+                            <li>Monitoring: Performance dashboards and alert systems</li>
+                        </ul>
+                        <h5>Technologies Used:</h5>
+                        <ul>
+                            <li><strong>Programming:</strong> Python, SQL</li>
+                            <li><strong>ML Libraries:</strong> Scikit-learn, Pandas, NumPy</li>
+                            <li><strong>Visualization:</strong> Matplotlib, Plotly, Seaborn</li>
+                            <li><strong>Deployment:</strong> Cloud platforms, API development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Tab Navigation
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Show Project Detail
+        function showProjectDetail(projectId) {
+            showPage('project-detail');
+        }
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animation for project cards
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 150;
+                
+                if (cardTop < window.innerHeight - cardVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize animations
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Set initial state for animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
+            });
+            
+            // Trigger initial animation
+            setTimeout(animateOnScroll, 100);
+        });
+    </script>
+</body>
+</html>
